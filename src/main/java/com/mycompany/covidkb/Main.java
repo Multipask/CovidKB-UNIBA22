@@ -15,7 +15,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        //Parte di acquisizione degli assiomi da DB
+        
+        //Creazione di un TopDownResolver sugli assiomi caricati
+        
+        //Finchè l'utente vuole uscire può somministrare query al risolutore
     }
     
 }
