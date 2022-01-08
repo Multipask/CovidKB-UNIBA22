@@ -5,6 +5,8 @@
  */
 package com.mycompany.covidkb;
 
+import java.util.Objects;
+
 /**
  *
  * @author giuse
@@ -51,5 +53,30 @@ public class Atom {
 
     public void setAlreadyAsked(boolean alreadyAsked) {
         this.alreadyAsked = alreadyAsked;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Atom other = (Atom) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
     }
 }

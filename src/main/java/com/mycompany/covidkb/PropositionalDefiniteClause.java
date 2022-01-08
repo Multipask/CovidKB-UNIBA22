@@ -14,7 +14,7 @@ import java.util.List;
  * @author giuse
  */
 public class PropositionalDefiniteClause {
-    
+
     private Atom head;
     List<Atom> body;
 
@@ -28,15 +28,15 @@ public class PropositionalDefiniteClause {
         this.body = new ArrayList<>();
         this.body.addAll(Arrays.asList(bodyAtoms));
     }
-    
-    public boolean isFact(){
+
+    public boolean isFact() {
         return (this.body == null);
     }
 
     public Atom getHead() {
         return head;
     }
-    
+
     public List<Atom> getBody() {
         return body;
     }
