@@ -14,16 +14,17 @@ import java.util.Objects;
  */
 public class Vertex<T> {
     
+    private static Integer vertexCount;
     private Integer label;
     private T content;
 
-    public Vertex(Integer label, T content) {
-        this.label = label;
+    public Vertex(T content) {
+        this.label = ++Vertex.vertexCount;
         this.content = content;
     }
 
     public T getContent() {
-        return content;
+        return this.content;
     }
 
     @Override

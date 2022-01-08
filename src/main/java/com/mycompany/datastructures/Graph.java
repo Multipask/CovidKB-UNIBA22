@@ -46,12 +46,23 @@ public class Graph<VT, ET> {
     }
     
     private Map<VT, List<WeightedOutLink>> adjacencyMap;
+    private VT root;
 
     public Graph() {
         this.adjacencyMap = new HashMap<>();
+        this.root = null;
+    }
+
+    public VT getRoot() {
+        return root;
     }
     
     public void addVertex(VT vertex){
+        
+        if(this.root == null){
+            root = vertex;
+        }
+        
         if(!this.adjacencyMap.containsKey(vertex)){
             this.adjacencyMap.put(vertex, new ArrayList<>());
         }
@@ -60,6 +71,10 @@ public class Graph<VT, ET> {
     public void addEdge(VT source, VT destination, ET weight){
         if(!this.adjacencyMap.containsKey(source)){
             this.addVertex(source);
+        }
+        
+        if(!this.adjacencyMap.containsKey(destination)){
+            this.addVertex(destination);
         }
         
         WeightedOutLink outLink = new WeightedOutLink(destination, weight);

@@ -20,7 +20,7 @@ public class PropositionalDefiniteClause {
 
     public PropositionalDefiniteClause(Atom head) {
         this.head = head;
-        this.body = null;
+        this.body = new ArrayList<>();
     }
 
     public PropositionalDefiniteClause(Atom head, Atom... bodyAtoms) {
@@ -28,16 +28,16 @@ public class PropositionalDefiniteClause {
         this.body = new ArrayList<>();
         this.body.addAll(Arrays.asList(bodyAtoms));
     }
-
-    public boolean isFact() {
-        return (this.body == null);
-    }
-
+    
     public Atom getHead() {
         return head;
     }
 
     public List<Atom> getBody() {
         return body;
+    }
+    
+    public boolean isFact() {
+        return (this.body.isEmpty());
     }
 }
