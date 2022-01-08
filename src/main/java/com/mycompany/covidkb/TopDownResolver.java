@@ -35,30 +35,5 @@ public class TopDownResolver {
 
     public void proveAnswerClause(PropositionalDefiniteClause answerClause) {
         
-        Atom currentAtom = answerClause.getBody().get(0);
-        
-        List<PropositionalDefiniteClause> neededClauses = new ArrayList<>();
-
-        for (PropositionalDefiniteClause axiom : kbAxioms) {
-            if (axiom.getHead().equals(currentAtom)) {
-                neededClauses.add(axiom);
-            }
-        }
-        
-        List<Atom> currentBody = new ArrayList<>();
-        currentBody.addAll(answerClause.getBody());
-        
-        for (PropositionalDefiniteClause currentClause : neededClauses){
-            
-            if(currentClause.isFact()){
-                answerClause.getBody().remove(currentAtom);
-                break;
-            }
-            
-            answerClause.getBody().clear();
-            answerClause.getBody().addAll(currentBody);
-            answerClause.getBody().remove(currentAtom);
-            answerClause.getBody().addAll(currentClause.getBody());
-        }
     }
 }
