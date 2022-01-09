@@ -42,6 +42,10 @@ public class PropositionalDefiniteClause {
     public List<Atom> getBody() {
         return body;
     }
+
+    public void setBody(List<Atom> body) {
+        this.body = body;
+    }
     
     public boolean isFact() {
         return (this.body.isEmpty());
