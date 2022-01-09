@@ -6,8 +6,10 @@
 package com.mycompany.covidkb;
 
 import com.mycompany.datastructures.*;
+import exceptions.WrongQueryFormulationException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -15,13 +17,41 @@ import java.util.List;
  */
 public class TopDownResolver {
 
+    private Set<Atom> atoms;
     private List<PropositionalDefiniteClause> kbAxioms;
 
-    public TopDownResolver(List<PropositionalDefiniteClause> kbAxioms) {
+    public TopDownResolver(Set<Atom> atoms, List<PropositionalDefiniteClause> kbAxioms) {
+        this.atoms = atoms;
         this.kbAxioms = kbAxioms;
     }
 
-    public void proveQuery(Atom... atomsToProve) {
+    public void proveQuery(List<String> askedAtoms) throws WrongQueryFormulationException {
+        
+        List atomsToProve = new ArrayList<>();
+        Boolean inexistingAtoms = false;
+        
+        for(String atomName : askedAtoms){
+            
+            Boolean matches = false;
+            
+            for(Atom atom : atoms){
+                if(atom.getName().equals(atomName)){
+                    atomsToProve.add(atom);
+                    matches = true;
+                    break;
+                }
+            }
+            
+            if(matches == false){
+                inexistingAtoms = true;
+                break;
+            }
+        }
+        
+        if(inexistingAtoms == true){
+            throw new WrongQueryFormulationException();
+        }
+        
         Atom yesAtom = new Atom("yes", false);
         PropositionalDefiniteClause answerClause = new PropositionalDefiniteClause(yesAtom, atomsToProve);
 
@@ -47,9 +77,11 @@ public class TopDownResolver {
     }
     
     public void buildGraph(Graph<Vertex<List<Atom>>, Boolean> graph, Vertex<List<Atom>> root){
+        System.out.println("\niterate");
         graph.addVertex(root);
         
         List<Atom> rootList = root.getContent();
+        
         Atom currentAtom = rootList.get(0);
         
         List<PropositionalDefiniteClause> neededClauses = new ArrayList<>();

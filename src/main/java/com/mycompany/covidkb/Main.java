@@ -5,8 +5,13 @@
  */
 package com.mycompany.covidkb;
 
+import exceptions.WrongQueryFormulationException;
 import java.util.ArrayList;
 import java.util.List;
+import com.mycompany.parser.*;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -41,6 +46,30 @@ public class Main {
         Atom covid = new Atom("covid", false);
         Atom covidMild = new Atom("covid_mild", false);
         Atom covidSerious = new Atom("covid_serious", false);
+        
+        Set<Atom> atoms = new HashSet<>();
+        
+        atoms.add(testedPositive);
+        atoms.add(fever);
+        atoms.add(cough);
+        atoms.add(asthenia);
+        atoms.add(tasteOrSmellLoss);
+        atoms.add(chestPain);
+        atoms.add(breathingDifficulty);
+        atoms.add(noSymptoms);
+        atoms.add(commonSymptoms);
+        atoms.add(seriousSymptoms);
+        atoms.add(alreadyHadCovid);
+        atoms.add(vaccinated);
+        atoms.add(hangedOutNoProtection);
+        atoms.add(contactWithPositive);
+        atoms.add(isProtected);
+        atoms.add(isAtRisk);
+        atoms.add(well);
+        atoms.add(flu);
+        atoms.add(covid);
+        atoms.add(covidMild);
+        atoms.add(covidSerious);
         
         PropositionalDefiniteClause pdc1 = new PropositionalDefiniteClause(commonSymptoms, fever);
         PropositionalDefiniteClause pdc2 = new PropositionalDefiniteClause(commonSymptoms, cough);
@@ -95,7 +124,30 @@ public class Main {
         }
         
         //Creazione di un TopDownResolver sugli assiomi caricati
-        TopDownResolver tdr = new TopDownResolver(covidKb);
+        TopDownResolver tdr = new TopDownResolver(atoms, covidKb);
+        
+        Parser parser = new Parser();
+        
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            
+            List<String> askedAtoms;
+            
+            try {
+                askedAtoms = parser.decodeCommand(scanner.nextLine());
+            } catch (WrongQueryFormulationException exc) {
+                System.err.println(exc.getMessage());
+                continue;
+            }
+            
+            try {
+                tdr.proveQuery(askedAtoms);
+            } catch (WrongQueryFormulationException exc) {
+                System.err.println(exc.getMessage());
+                continue;
+            }
+        }
+
         
         //Finchè l'utente vuole uscire può somministrare query al risolutore
     }

@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class Vertex<T> {
     
-    private static Integer vertexCount;
+    private static Integer vertexCount = 0;
     private Integer label;
     private T content;
 

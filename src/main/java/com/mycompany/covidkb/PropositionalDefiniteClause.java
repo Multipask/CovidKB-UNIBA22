@@ -23,6 +23,12 @@ public class PropositionalDefiniteClause {
         this.body = new ArrayList<>();
     }
 
+    public PropositionalDefiniteClause(Atom head, List<Atom> bodyAtoms) {
+        this.head = head;
+        this.body = new ArrayList<>();
+        this.body.addAll(bodyAtoms);
+    }
+    
     public PropositionalDefiniteClause(Atom head, Atom... bodyAtoms) {
         this.head = head;
         this.body = new ArrayList<>();
