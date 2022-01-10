@@ -16,7 +16,7 @@ import java.util.List;
 public class PropositionalDefiniteClause {
 
     private Atom head;
-    List<Atom> body;
+    private List<Atom> body;
 
     public PropositionalDefiniteClause(Atom head) {
         this.head = head;
