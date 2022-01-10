@@ -5,7 +5,6 @@
  */
 package com.mycompany.parser;
 
-import com.mycompany.covidkb.Atom;
 import exceptions.WrongQueryFormulationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,8 @@ import java.util.List;
  */
 public class Parser {
     
-    public final static String CONJUNCTION_SYMBOL = "and";
-    public final static String ASK_COMMAND_FORMAT = "ask[\\s]+[\\w]+([\\s]+" + Parser.CONJUNCTION_SYMBOL + "[\\s]+[\\w]+)*";
+    public final static String CONJUNCTION_STRING = "and";
+    public final static String ASK_QUERY_FORMAT = "ask[\\s]+[\\w]+([\\s]+" + Parser.CONJUNCTION_STRING + "[\\s]+[\\w]+)*";
     
     public List<String> decodeCommand(String command) throws WrongQueryFormulationException{
         
@@ -26,7 +25,7 @@ public class Parser {
         command = command.toLowerCase();
         command = command.trim();
         
-        if(command.matches(Parser.ASK_COMMAND_FORMAT)){
+        if(command.matches(Parser.ASK_QUERY_FORMAT)){
             command = command.replace("ask", "");
             command = command.trim();
             String[] tokens = command.split("[\\s]+");
@@ -40,5 +39,4 @@ public class Parser {
         
         return askedAtoms;
     }
-    
 }

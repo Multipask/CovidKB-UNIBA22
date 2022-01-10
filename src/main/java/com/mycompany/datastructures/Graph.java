@@ -22,7 +22,7 @@ public class Graph<VT, ET> {
         
         private VT vertex;
         private ET weight;
-
+        
         public WeightedOutLink(VT vertex, ET weight) {
             this.vertex = vertex;
             this.weight = weight;
@@ -58,7 +58,6 @@ public class Graph<VT, ET> {
     }
     
     public void addVertex(VT vertex){
-        
         if(this.root == null){
             root = vertex;
         }
@@ -77,13 +76,18 @@ public class Graph<VT, ET> {
             this.addVertex(destination);
         }
         
+        for(WeightedOutLink outLink : this.adjacencyMap.get(source)){
+            if(outLink.getVertex().equals(destination)){
+                return;
+            }
+        }
+        
         WeightedOutLink outLink = new WeightedOutLink(destination, weight);
         
         this.adjacencyMap.get(source).add(outLink);
     }
     
     public List<VT> getSuccessors(VT vertex){
-        
         List<VT> successorsList = new ArrayList<>();
         
         if(this.adjacencyMap.containsKey(vertex)){
@@ -96,11 +100,9 @@ public class Graph<VT, ET> {
     }
     
     public ET getEdgeWeight(VT source, VT destination){
-        
         ET weight = null;
         
         if(this.adjacencyMap.containsKey(source)){
-            
             List<WeightedOutLink> outLinks = this.adjacencyMap.get(source);
             
             for(WeightedOutLink outLink : outLinks){
