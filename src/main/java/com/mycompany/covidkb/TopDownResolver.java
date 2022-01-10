@@ -20,39 +20,31 @@ import java.util.Set;
  */
 public class TopDownResolver {
 
-    private Set<Atom> atoms;
+    private Set<Atom> kbAtoms;
     private List<PropositionalDefiniteClause> kbAxioms;
 
-    public TopDownResolver(Set<Atom> atoms, List<PropositionalDefiniteClause> kbAxioms) {
-        this.atoms = atoms;
+    public TopDownResolver(Set<Atom> kbAtoms, List<PropositionalDefiniteClause> kbAxioms) {
+        this.kbAtoms = kbAtoms;
         this.kbAxioms = kbAxioms;
     }
 
     public void proveQuery(List<String> askedAtoms) throws WrongQueryFormulationException {
-
         List atomsToProve = new ArrayList<>();
-        Boolean inexistingAtoms = false;
 
         for (String atomName : askedAtoms) {
+            Boolean existsInKb = false;
 
-            Boolean matches = false;
-
-            for (Atom atom : atoms) {
+            for (Atom atom : this.kbAtoms) {
                 if (atom.getName().equals(atomName)) {
                     atomsToProve.add(atom);
-                    matches = true;
+                    existsInKb = true;
                     break;
                 }
             }
 
-            if (matches == false) {
-                inexistingAtoms = true;
-                break;
+            if (existsInKb == false) {
+                throw new WrongQueryFormulationException();
             }
-        }
-
-        if (inexistingAtoms == true) {
-            throw new WrongQueryFormulationException();
         }
 
         Atom yesAtom = new Atom("yes", false);
@@ -76,22 +68,20 @@ public class TopDownResolver {
         rootList.addAll(answerClause.getBody());
         Vertex<List<Atom>> root = new Vertex(rootList);
 
+        searchingGraph.addVertex(root);
         buildGraph(searchingGraph, root);
 
         return searchingGraph;
     }
 
     private void buildGraph(Graph<Vertex<List<Atom>>, Boolean> graph, Vertex<List<Atom>> root) {
-        
-        graph.addVertex(root);
-
         List<Atom> rootList = root.getContent();
 
         Atom currentAtom = rootList.get(0);
         
         List<PropositionalDefiniteClause> neededClauses = new ArrayList<>();
 
-        for (PropositionalDefiniteClause axiom : kbAxioms) {
+        for (PropositionalDefiniteClause axiom : this.kbAxioms) {
             if (axiom.getHead().equals(currentAtom)) {
                 neededClauses.add(axiom);
             }
@@ -134,7 +124,6 @@ public class TopDownResolver {
     }
 
     private void exploreGraph(Graph<Vertex<List<Atom>>, Boolean> searchingGraph, Vertex<List<Atom>> root, PropositionalDefiniteClause answerClause) {
-
         Queue<Vertex<List<Atom>>> vertexQueue = new LinkedList<>();
 
         vertexQueue.offer(root);
