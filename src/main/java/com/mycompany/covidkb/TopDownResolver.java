@@ -6,6 +6,7 @@
 package com.mycompany.covidkb;
 
 import com.mycompany.datastructures.*;
+import com.mycompany.gui.AtomAskingWindow;
 import exceptions.WrongQueryFormulationException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,15 +21,21 @@ import java.util.Set;
  */
 public class TopDownResolver {
 
+    private MainFrame mainFrame;
     private Set<Atom> kbAtoms;
     private List<PropositionalDefiniteClause> kbAxioms;
 
-    public TopDownResolver(Set<Atom> kbAtoms, List<PropositionalDefiniteClause> kbAxioms) {
+    public TopDownResolver(MainFrame mainFrame, Set<Atom> kbAtoms, List<PropositionalDefiniteClause> kbAxioms) {
+        this.mainFrame = mainFrame;
         this.kbAtoms = kbAtoms;
         this.kbAxioms = kbAxioms;
     }
 
     public void proveQuery(List<String> askedAtoms) throws WrongQueryFormulationException {
+        if(askedAtoms.isEmpty()){
+            throw new WrongQueryFormulationException();
+        }
+        
         for(Atom kbAtom: kbAtoms){
             kbAtom.resetAtom();
         }
@@ -59,9 +66,9 @@ public class TopDownResolver {
         this.exploreGraph(searchingGraph, searchingGraph.getRoot(), answerClause);
 
         if (answerClause.isFact()) {
-            System.out.println("Dimostrazione riuscita!");
+            mainFrame.appendOutput("Dimostrazione riuscita!");
         } else {
-            System.out.println("Dimostrazione fallita...");
+            mainFrame.appendOutput("Dimostrazione fallita...");
         }
         
         for(Atom kbAtom: kbAtoms){
@@ -158,11 +165,9 @@ public class TopDownResolver {
                 vertexContent = vertexContent + atom.getName() + " ";
             }
 
-            System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+            mainFrame.appendOutput("Visiting node: " + vertexContent);
 
-            System.out.println("Visiting node: " + vertexContent);
-
-            System.out.println("Successors:");
+            mainFrame.appendOutput("Successors:");
 
             for (Vertex<List<Atom>> successor : searchingGraph.getSuccessors(currentVertex)) {
                 String successorContent = "";
@@ -175,11 +180,10 @@ public class TopDownResolver {
                     successorContent = successorContent + atom.getName() + " ";
                 }
                 
-                System.out.println("-" + successorContent);
+                mainFrame.appendOutput("-" + successorContent);
             }
-
-            System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-            System.out.println("");
+            
+            mainFrame.appendOutput("");
             //</editor-fold>
                         
             for (Vertex<List<Atom>> successor : searchingGraph.getSuccessors(currentVertex)) {
@@ -190,10 +194,12 @@ public class TopDownResolver {
                     Atom askableAtom = currentVertex.getContent().get(0);
 
                     if (!askableAtom.isAlreadyAsked()) {
-                        System.out.println(currentVertex.getContent().get(0).getName() + "?");
-                        Scanner scanner = new Scanner(System.in);
+                        AtomAskingWindow askingWindow = new AtomAskingWindow(mainFrame, true);
+                        askingWindow.setQuestion(currentVertex.getContent().get(0).getName() + "?");
+                        askingWindow.setVisible(true);
+                        Boolean providedAnswer = askingWindow.getAnswer();
 
-                        askableAtom.provideAnswer(scanner.nextLine().equalsIgnoreCase("yes"));
+                        askableAtom.provideAnswer(providedAnswer);
                     }
                     
                     boolean positiveAnswer = askableAtom.getAnswerProvided();
