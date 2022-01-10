@@ -29,6 +29,10 @@ public class TopDownResolver {
     }
 
     public void proveQuery(List<String> askedAtoms) throws WrongQueryFormulationException {
+        for(Atom kbAtom: kbAtoms){
+            kbAtom.resetAtom();
+        }
+        
         List atomsToProve = new ArrayList<>();
 
         for (String atomName : askedAtoms) {
@@ -59,6 +63,10 @@ public class TopDownResolver {
         } else {
             System.out.println("Dimostrazione fallita...");
         }
+        
+        for(Atom kbAtom: kbAtoms){
+            kbAtom.resetAtom();
+        }
     }
 
     private Graph<Vertex<List<Atom>>, Boolean> getSearchingGraph(PropositionalDefiniteClause answerClause) {
@@ -78,7 +86,7 @@ public class TopDownResolver {
         List<Atom> rootList = root.getContent();
 
         Atom currentAtom = rootList.get(0);
-        
+
         List<PropositionalDefiniteClause> neededClauses = new ArrayList<>();
 
         for (PropositionalDefiniteClause axiom : this.kbAxioms) {
@@ -127,55 +135,84 @@ public class TopDownResolver {
         Queue<Vertex<List<Atom>>> vertexQueue = new LinkedList<>();
 
         vertexQueue.offer(root);
-        
+
         while (!vertexQueue.isEmpty()) {
-            
             Vertex<List<Atom>> currentVertex = vertexQueue.poll();
             
+            List<Atom> newBody = new ArrayList<>();
+            newBody.addAll(currentVertex.getContent());
+            answerClause.setBody(newBody);
+            
+            if(answerClause.isFact()){
+                return;
+            }
+            
+            //<editor-fold defaultstate="collapsed" desc="Log">
             String vertexContent = "";
+
+            if (currentVertex.getContent().isEmpty()) {
+                vertexContent = "Empty";
+            }
 
             for (Atom atom : currentVertex.getContent()) {
                 vertexContent = vertexContent + atom.getName() + " ";
             }
 
-            //System.out.println("Visiting node: " + vertexContent);
+            System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
-            //System.out.println("Successors:");
-            
+            System.out.println("Visiting node: " + vertexContent);
+
+            System.out.println("Successors:");
+
             for (Vertex<List<Atom>> successor : searchingGraph.getSuccessors(currentVertex)) {
-
-                Boolean askable = searchingGraph.getEdgeWeight(currentVertex, successor);
-                
-                if(askable){
-                    System.out.println(currentVertex.getContent().get(0).getName() + "?");
-                    Scanner scanner = new Scanner(System.in);
-                    
-                    String input = scanner.nextLine();
-                    
-                    if(input.equalsIgnoreCase("yes")){
-                        
-                    } else {
-                        continue;
-                    }
-                }
-                
                 String successorContent = "";
 
-                if (successor.getContent().isEmpty()) {
-                    successorContent = "Empty List";
-                    
-                    answerClause.setBody(new ArrayList<>());
-                    
-                    return;
-                } else {
-                    for (Atom atom : successor.getContent()) {
-                        successorContent = successorContent + atom.getName() + " ";
+                if(successor.getContent().isEmpty()){
+                    successorContent = "Empty";
+                }
+                
+                for (Atom atom : successor.getContent()) {
+                    successorContent = successorContent + atom.getName() + " ";
+                }
+                
+                System.out.println("-" + successorContent);
+            }
+
+            System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+            System.out.println("");
+            //</editor-fold>
+                        
+            for (Vertex<List<Atom>> successor : searchingGraph.getSuccessors(currentVertex)) {
+                boolean askable = searchingGraph.getEdgeWeight(currentVertex, successor);
+                boolean isVisitable = true;
+                
+                if (askable) {
+                    Atom askableAtom = currentVertex.getContent().get(0);
+
+                    if (!askableAtom.isAlreadyAsked()) {
+                        System.out.println(currentVertex.getContent().get(0).getName() + "?");
+                        Scanner scanner = new Scanner(System.in);
+
+                        askableAtom.provideAnswer(scanner.nextLine().equalsIgnoreCase("yes"));
                     }
+                    
+                    boolean positiveAnswer = askableAtom.getAnswerProvided();
+                    
+                    if (positiveAnswer) {
+                        for (Vertex<List<Atom>> askableSuccessor : searchingGraph.getSuccessors(currentVertex)) {
+                            if(askableSuccessor.getContent().isEmpty()){
+                                answerClause.setBody(new ArrayList<>());
+                                return;
+                            }
+                        }
+                    }
+                    
+                    isVisitable = positiveAnswer;
                 }
 
-                //System.out.println(successorContent);
-                
-                vertexQueue.offer(successor);
+                if(isVisitable){
+                    vertexQueue.offer(successor);
+                }
             }
         }
     }

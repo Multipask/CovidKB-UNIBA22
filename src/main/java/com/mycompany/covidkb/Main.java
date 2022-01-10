@@ -32,7 +32,7 @@ public class Main {
         Atom tasteOrSmellLoss = new Atom("taste_or_smell_loss", true);
         Atom chestPain = new Atom("chest_pain", true);
         Atom breathingDifficulty = new Atom("breathing_difficulty", true);
-        Atom noSymptoms = new Atom("no_symptoms", false);
+        Atom noSymptoms = new Atom("no_symptoms", true);
         Atom commonSymptoms = new Atom("common_symptoms", false);
         Atom seriousSymptoms = new Atom("serious_symptoms", false);
         Atom alreadyHadCovid = new Atom("already_had_covid", true); 

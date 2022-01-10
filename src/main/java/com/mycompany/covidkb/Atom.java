@@ -15,10 +15,14 @@ public class Atom {
     
     private String name;
     private boolean askable;
+    private boolean alreadyAsked;
+    private Boolean providedAnswer;
 
     public Atom(String name, boolean askable) {
         this.name = name;
         this.askable = askable;
+        this.alreadyAsked = false;
+        this.providedAnswer = null;
     }
 
     public String getName() {
@@ -27,6 +31,24 @@ public class Atom {
     
     public boolean isAskable() {
         return askable;
+    }
+
+    public boolean isAlreadyAsked() {
+        return alreadyAsked;
+    }
+
+    public boolean getAnswerProvided() {
+        return providedAnswer;
+    }
+    
+    public void provideAnswer(Boolean providedAnswer){
+        this.alreadyAsked = true;
+        this.providedAnswer = providedAnswer;
+    }
+    
+    public void resetAtom(){
+        this.alreadyAsked = false;
+        this.providedAnswer = null;
     }
     
     @Override
