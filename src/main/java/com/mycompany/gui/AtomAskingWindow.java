@@ -19,6 +19,7 @@ public class AtomAskingWindow extends javax.swing.JDialog {
     public AtomAskingWindow(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        super.setLocationRelativeTo(parent);
         this.answer = false;
     }
     

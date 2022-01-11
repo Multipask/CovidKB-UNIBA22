@@ -21,6 +21,7 @@ import javax.swing.JLabel;
  */
 public class MainFrame extends javax.swing.JFrame {
     
+    private final static String TITLE = "COVID KB";
     private TopDownResolver resolver;
     private JLabel backgroundLabel;
     private JLabel outputAreaBackgroundLabel;
@@ -144,8 +145,19 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void customInit(){
         
+        this.setTitle(TITLE);
+        
         // <editor-fold defaultstate="collapsed" desc="Creazione e aggiunta labels di sfondo">
-        this.backgroundLabel = new JLabel();
+        
+        String backgroundPath = "src" + System.getProperty("file.separator") + 
+                                "main" + System.getProperty("file.separator") +
+                                "java" + System.getProperty("file.separator") + 
+                                "com" + System.getProperty("file.separator") + 
+                                "mycompany" + System.getProperty("file.separator") + 
+                                "gui" + System.getProperty("file.separator") + "Background.jpg";
+        
+        this.backgroundLabel = new BackgroundLabel(backgroundPath,
+                this.backgroundPanel.getWidth(), this.backgroundPanel.getHeight());
         this.backgroundPanel.add(backgroundLabel, 
                 new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, this.backgroundPanel.getWidth(), this.backgroundPanel.getHeight()));
         
@@ -157,7 +169,8 @@ public class MainFrame extends javax.swing.JFrame {
                                 "main" + System.getProperty("file.separator") +
                                 "java" + System.getProperty("file.separator") + 
                                 "com" + System.getProperty("file.separator") + 
-                                "mycompany" + System.getProperty("file.separator") + "gui";
+                                "mycompany" + System.getProperty("file.separator") + 
+                                "gui" + System.getProperty("file.separator") + "GlassPanel.png";
         
         this.outputAreaBackgroundLabel = new BackgroundLabel(glassPanelPath,
                 this.outputAreaBackgroundPanel.getWidth(), this.outputAreaBackgroundPanel.getHeight());
@@ -180,7 +193,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.outputArea.setLineWrap(true);
         this.outputArea.setWrapStyleWord(true);
         this.outputArea.setEditable(false);
-        this.outputArea.setForeground(Color.black);
+        this.outputArea.setForeground(Color.white);
         // </editor-fold>
         
         // <editor-fold defaultstate="collapsed" desc="Impostazione trasparenza componenti dell'area di output">
@@ -197,6 +210,9 @@ public class MainFrame extends javax.swing.JFrame {
         this.outputAreaScroll.setViewportBorder(null);
         this.outputAreaScroll.setBorder(null); //opzionale
         // </editor-fold>
+        
+        this.titleLabel.setText(MainFrame.TITLE);
+        this.infoLabel.setText("Ask a Query. (Digit \"help\" if needed)");
     }
     
     private void executeCommand(){
@@ -234,6 +250,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         backgroundPanel = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        infoLabel = new javax.swing.JLabel();
         inputField = new javax.swing.JTextField();
         outputAreaBackgroundPanel = new javax.swing.JPanel();
         outputAreaScroll = new javax.swing.JScrollPane();
@@ -242,13 +260,26 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 600));
         setMinimumSize(new java.awt.Dimension(1000, 600));
-        setPreferredSize(new java.awt.Dimension(1000, 600));
         setSize(new java.awt.Dimension(1000, 600));
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         backgroundPanel.setBackground(new java.awt.Color(153, 255, 255));
         backgroundPanel.setMaximumSize(new java.awt.Dimension(1000, 600));
         backgroundPanel.setMinimumSize(new java.awt.Dimension(1000, 600));
         backgroundPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+        backgroundPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        titleLabel.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        backgroundPanel.add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 13, 882, 34));
+
+        infoLabel.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        backgroundPanel.add(infoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 54, 882, 38));
 
         inputField.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
         inputField.setMaximumSize(new java.awt.Dimension(800, 30));
@@ -258,6 +289,7 @@ public class MainFrame extends javax.swing.JFrame {
                 inputFieldKeyPressed(evt);
             }
         });
+        backgroundPanel.add(inputField, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 110, 882, 30));
 
         outputArea.setColumns(20);
         outputArea.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
@@ -268,56 +300,52 @@ public class MainFrame extends javax.swing.JFrame {
         outputAreaBackgroundPanel.setLayout(outputAreaBackgroundPanelLayout);
         outputAreaBackgroundPanelLayout.setHorizontalGroup(
             outputAreaBackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(outputAreaScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, outputAreaBackgroundPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(outputAreaScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         outputAreaBackgroundPanelLayout.setVerticalGroup(
             outputAreaBackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(outputAreaScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, outputAreaBackgroundPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(outputAreaScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
-        backgroundPanel.setLayout(backgroundPanelLayout);
-        backgroundPanelLayout.setHorizontalGroup(
-            backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundPanelLayout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
-                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(outputAreaBackgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(49, 49, 49))
-        );
-        backgroundPanelLayout.setVerticalGroup(
-            backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundPanelLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(outputAreaBackgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
-                .addComponent(inputField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-        );
+        backgroundPanel.add(outputAreaBackgroundPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 158, -1, -1));
 
         getContentPane().add(backgroundPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
     private void inputFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputFieldKeyPressed
         switch (evt.getKeyCode()) {
             case java.awt.event.KeyEvent.VK_ENTER:
                 this.executeCommand();
+        }
+    }//GEN-LAST:event_inputFieldKeyPressed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        switch (evt.getKeyCode()) {
+            case java.awt.event.KeyEvent.VK_ENTER:
+                this.executeCommand();
             default:
-                this.outputArea.grabFocus();
+                this.inputField.grabFocus();
                 if(Character.isLetterOrDigit(evt.getKeyChar())){
                     
                     String charInserted = Character.toString(evt.getKeyChar());
                     
-                    if (this.outputArea.getText().isEmpty()) {
-                        this.outputArea.setText(charInserted);
+                    if (this.inputField.getText().isEmpty()) {
+                        this.inputField.setText(charInserted);
                     }
                 }
                 break;
         }
-    }//GEN-LAST:event_inputFieldKeyPressed
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -356,9 +384,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backgroundPanel;
+    private javax.swing.JLabel infoLabel;
     private javax.swing.JTextField inputField;
     private javax.swing.JTextArea outputArea;
     private javax.swing.JPanel outputAreaBackgroundPanel;
     private javax.swing.JScrollPane outputAreaScroll;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
