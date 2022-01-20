@@ -26,9 +26,9 @@ public class AtomAskingWindow extends javax.swing.JDialog {
     public AtomAskingWindow(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         super.setUndecorated(true);
-        super.setLocationRelativeTo(parent);
         initComponents();
         customInit();
+        super.setLocationRelativeTo(parent);
     }
     
     private void customInit(){        
