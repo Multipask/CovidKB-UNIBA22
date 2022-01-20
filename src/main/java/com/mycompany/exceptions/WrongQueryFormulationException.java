@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exceptions;
+package com.mycompany.exceptions;
 
 /**
  *
@@ -13,6 +13,6 @@ public class WrongQueryFormulationException extends Exception{
 
     @Override
     public String getMessage() {
-        return "Wrong Query Formulation!"; //To change body of generated methods, choose Tools | Templates.
+        return "Wrong Query Formulation!";
     }
 }

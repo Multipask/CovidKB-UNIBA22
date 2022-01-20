@@ -7,7 +7,7 @@ package com.mycompany.covidkb;
 
 import com.mycompany.datastructures.*;
 import com.mycompany.gui.AtomAskingWindow;
-import exceptions.WrongQueryFormulationException;
+import com.mycompany.exceptions.WrongQueryFormulationException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

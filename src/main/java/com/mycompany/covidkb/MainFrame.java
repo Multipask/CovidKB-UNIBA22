@@ -5,15 +5,18 @@
  */
 package com.mycompany.covidkb;
 
-import com.mycompany.gui.BackgroundLabel;
-import com.mycompany.parser.Parser;
-import exceptions.WrongQueryFormulationException;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.mycompany.parser.*;
+import com.mycompany.exceptions.WrongQueryFormulationException;
+
+import java.awt.Color;
 import javax.swing.JLabel;
+
+import com.mycompany.gui.BackgroundLabel;
 
 /**
  *
@@ -216,28 +219,44 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private void executeCommand(){
-        String command = this.inputField.getText();
+        String query = this.inputField.getText();
         this.inputField.setText("");
+        this.cleanOutput();
         
         Parser parser = new Parser();
         
-        List<String> askedAtoms = new ArrayList<>();
-        
+        Command resultingCommand;
+
         try {
-            askedAtoms.addAll(parser.decodeCommand(command));
+            resultingCommand = parser.decodeQuery(query);
         } catch (WrongQueryFormulationException ex) {
             outputArea.setText(ex.getMessage());
+            return;
         }
-        
-        try {
-            resolver.proveQuery(askedAtoms);
-        } catch (WrongQueryFormulationException ex) {
-            outputArea.setText(ex.getMessage());
+
+        if (resultingCommand.isAskingCommand()) {
+            try {
+                List<String> askedAtoms = ((AskingCommand) resultingCommand).getAskedAtoms();
+                resolver.proveQuery(askedAtoms);
+            } catch (WrongQueryFormulationException ex) {
+                outputArea.setText(ex.getMessage());
+                return;
+            }
+        }
+
+        if (resultingCommand.isHelpCommand()) {
+            outputArea.setText("Digit a query in the format: ask [atom] (and [atom])*");
+            outputArea.append("Digit \"axioms\" to show KB axioms");
+            outputArea.append("Digit \"ontology\" to show symbol meanings");
         }
     }
     
     public void appendOutput(String content){
         this.outputArea.append(System.lineSeparator() + content);
+    }
+    
+    public void cleanOutput(){
+        this.outputArea.setText("");
     }
     
     /**
