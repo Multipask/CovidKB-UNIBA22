@@ -32,10 +32,6 @@ public class Graph<VT, ET> {
             return vertex;
         }
 
-        public void setVertex(VT vertex) {
-            this.vertex = vertex;
-        }
-
         public ET getWeight() {
             return weight;
         }
