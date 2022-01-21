@@ -251,11 +251,11 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         if(resultingCommand.isShowOntologyCommand()){
-            //
+            outputArea.setText("Ontology:");
         }
         
         if(resultingCommand.isShowAxiomsCommand()){
-            //
+            outputArea.setText("Axioms:");
         }
     }
     
