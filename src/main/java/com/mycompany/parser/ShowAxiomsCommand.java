@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.covidkb;
+package com.mycompany.parser;
 
 /**
  *
  * @author giuse
  */
-public enum TruthValue {
-    TRUE,
-    FALSE,
-    NOT_STATED
+public class ShowAxiomsCommand extends Command{
+    
 }

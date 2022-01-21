@@ -14,30 +14,41 @@ import java.util.List;
  * @author giuse
  */
 public class PropositionalDefiniteClause {
-    
+
     private Atom head;
-    List<Atom> body;
+    private List<Atom> body;
 
     public PropositionalDefiniteClause(Atom head) {
         this.head = head;
-        this.body = null;
+        this.body = new ArrayList<>();
     }
 
+    public PropositionalDefiniteClause(Atom head, List<Atom> bodyAtoms) {
+        this.head = head;
+        this.body = new ArrayList<>();
+        this.body.addAll(bodyAtoms);
+    }
+    
     public PropositionalDefiniteClause(Atom head, Atom... bodyAtoms) {
         this.head = head;
         this.body = new ArrayList<>();
         this.body.addAll(Arrays.asList(bodyAtoms));
     }
     
-    public boolean isFact(){
-        return (this.body == null);
-    }
-
     public Atom getHead() {
         return head;
     }
-    
+
     public List<Atom> getBody() {
         return body;
+    }
+
+    public void setBody(List<Atom> body) {
+        this.body = new ArrayList<>();
+        this.body.addAll(body);
+    }
+    
+    public boolean isFact() {
+        return (this.body.isEmpty());
     }
 }

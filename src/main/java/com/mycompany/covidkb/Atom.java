@@ -5,6 +5,8 @@
  */
 package com.mycompany.covidkb;
 
+import java.util.Objects;
+
 /**
  *
  * @author giuse
@@ -12,44 +14,70 @@ package com.mycompany.covidkb;
 public class Atom {
     
     private String name;
-    private TruthValue truthVal;
     private boolean askable;
     private boolean alreadyAsked;
+    private Boolean providedAnswer;
 
     public Atom(String name, boolean askable) {
         this.name = name;
         this.askable = askable;
+        this.alreadyAsked = false;
+        this.providedAnswer = null;
     }
 
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public TruthValue getTruthVal() {
-        return truthVal;
-    }
-
-    public void setTruthVal(TruthValue truthVal) {
-        this.truthVal = truthVal;
-    }
-
+    
     public boolean isAskable() {
         return askable;
-    }
-
-    public void setAskable(boolean askable) {
-        this.askable = askable;
     }
 
     public boolean isAlreadyAsked() {
         return alreadyAsked;
     }
 
-    public void setAlreadyAsked(boolean alreadyAsked) {
-        this.alreadyAsked = alreadyAsked;
+    public boolean getAnswerProvided() {
+        return providedAnswer;
+    }
+    
+    public void provideAnswer(Boolean providedAnswer){
+        this.alreadyAsked = true;
+        this.providedAnswer = providedAnswer;
+    }
+    
+    public void resetAtom(){
+        this.alreadyAsked = false;
+        this.providedAnswer = null;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Atom other = (Atom) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return (this.name);
     }
 }
