@@ -20,6 +20,8 @@ import java.util.Set;
  */
 public class TopDownResolver {
 
+    private final static int MAX_ASKINGQUERY_SIZE = 2;
+    
     private MainFrame mainFrame;
     private Set<Atom> kbAtoms;
     private List<PropositionalDefiniteClause> kbAxioms;
@@ -56,13 +58,21 @@ public class TopDownResolver {
                 throw new WrongQueryFormulationException();
             }
         }
+        
+        if(askedAtoms.size() > TopDownResolver.MAX_ASKINGQUERY_SIZE){
+            StringBuilder errorMessageBuilder = new StringBuilder();
+            errorMessageBuilder.append("Exceeded maximum atoms number!").append(System.lineSeparator());
+            errorMessageBuilder.append("You can ask for up to ").append(TopDownResolver.MAX_ASKINGQUERY_SIZE).append(" atom(s) per query!");
+            mainFrame.setOutput(errorMessageBuilder.toString());
+            return;
+        }
 
         Atom yesAtom = new Atom("yes", false);
         PropositionalDefiniteClause answerClause = new PropositionalDefiniteClause(yesAtom, atomsToProve);
 
         Graph<Vertex<List<Atom>>, Boolean> searchingGraph = this.getSearchingGraph(answerClause);
 
-        mainFrame.appendOutput("Graph Visit Log:" + System.lineSeparator());
+        mainFrame.setOutput("Graph Visit Log:" + System.lineSeparator());
         
         this.exploreGraph(searchingGraph, searchingGraph.getRoot(), answerClause);
 

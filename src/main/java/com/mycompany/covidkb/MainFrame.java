@@ -26,7 +26,9 @@ public class MainFrame extends javax.swing.JFrame {
     
     private final static String TITLE = "COVID KB";
     private final static String INFO = "Ask a Query. (Digit \"help\" if needed)";
+        
     private TopDownResolver resolver;
+    
     private JLabel backgroundLabel;
     private JLabel outputAreaBackgroundLabel;
     
@@ -252,6 +254,10 @@ public class MainFrame extends javax.swing.JFrame {
             outputArea.append(resolver.getFormattedAxioms());
             outputArea.setCaretPosition(0);
         }
+    }
+    
+    public void setOutput(String content){
+        this.outputArea.setText(content);
     }
     
     public void appendOutput(String content){
