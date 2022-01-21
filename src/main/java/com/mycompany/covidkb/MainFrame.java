@@ -233,7 +233,13 @@ public class MainFrame extends javax.swing.JFrame {
             outputArea.setText(ex.getMessage());
             return;
         }
-
+        
+        if (resultingCommand.isHelpCommand()) {
+            outputArea.setText("Digit a query in the format: ask [atom] (and [atom])*");
+            outputArea.append("Digit \"axioms\" to show KB axioms");
+            outputArea.append("Digit \"ontology\" to show symbol meanings");
+        }
+        
         if (resultingCommand.isAskingCommand()) {
             try {
                 List<String> askedAtoms = ((AskingCommand) resultingCommand).getAskedAtoms();
@@ -243,11 +249,13 @@ public class MainFrame extends javax.swing.JFrame {
                 return;
             }
         }
-
-        if (resultingCommand.isHelpCommand()) {
-            outputArea.setText("Digit a query in the format: ask [atom] (and [atom])*");
-            outputArea.append("Digit \"axioms\" to show KB axioms");
-            outputArea.append("Digit \"ontology\" to show symbol meanings");
+        
+        if(resultingCommand.isShowOntologyCommand()){
+            //
+        }
+        
+        if(resultingCommand.isShowAxiomsCommand()){
+            //
         }
     }
     
