@@ -25,6 +25,7 @@ import com.mycompany.gui.BackgroundLabel;
 public class MainFrame extends javax.swing.JFrame {
     
     private final static String TITLE = "COVID KB";
+    private final static String INFO = "Ask a Query. (Digit \"help\" if needed)";
     private TopDownResolver resolver;
     private JLabel backgroundLabel;
     private JLabel outputAreaBackgroundLabel;
@@ -133,10 +134,16 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void customInit(){
-        
         this.setTitle(TITLE);
+                
+        // <editor-fold defaultstate="collapsed" desc="Setting up title and info labels">
+        this.titleLabel.setText(MainFrame.TITLE);
+        this.titleLabel.setForeground(Color.white);
+        this.infoLabel.setText(MainFrame.INFO);
+        this.infoLabel.setForeground(Color.white);
+        // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Creazione e aggiunta labels di sfondo">
+        // <editor-fold defaultstate="collapsed" desc="Creating and adding background labels">
         
         String backgroundPath = "src" + System.getProperty("file.separator") + 
                                 "main" + System.getProperty("file.separator") +
@@ -167,7 +174,7 @@ public class MainFrame extends javax.swing.JFrame {
                 new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, this.outputAreaBackgroundPanel.getWidth(), this.outputAreaBackgroundPanel.getHeight()));
         // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Definizione dei focus">
+        // <editor-fold defaultstate="collapsed" desc="Defining focus">
         this.setFocusable(true);
         this.inputField.setFocusable(true);
         this.outputAreaScroll.setFocusable(true);
@@ -178,14 +185,14 @@ public class MainFrame extends javax.swing.JFrame {
         this.outputArea.setFocusable(false);
         // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Impostazione outputArea">
+        // <editor-fold defaultstate="collapsed" desc="Setting up outputArea">
         this.outputArea.setLineWrap(true);
         this.outputArea.setWrapStyleWord(true);
         this.outputArea.setEditable(false);
         this.outputArea.setForeground(Color.white);
         // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Impostazione trasparenza componenti dell'area di output">
+        // <editor-fold defaultstate="collapsed" desc="Setting up outputArea trasparency">
         Color empty = new Color(0, 0, 0, 0);
         this.outputAreaBackgroundPanel.setBackground(empty);
         this.outputAreaBackgroundPanel.setOpaque(false);
@@ -199,9 +206,6 @@ public class MainFrame extends javax.swing.JFrame {
         this.outputAreaScroll.setViewportBorder(null);
         this.outputAreaScroll.setBorder(null); //opzionale
         // </editor-fold>
-        
-        this.titleLabel.setText(MainFrame.TITLE);
-        this.infoLabel.setText("Ask a Query. (Digit \"help\" if needed)");
     }
     
     private void executeCommand(){
@@ -308,7 +312,7 @@ public class MainFrame extends javax.swing.JFrame {
                 inputFieldKeyPressed(evt);
             }
         });
-        backgroundPanel.add(inputField, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 110, 882, 30));
+        backgroundPanel.add(inputField, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 101, 882, -1));
 
         outputArea.setColumns(20);
         outputArea.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N

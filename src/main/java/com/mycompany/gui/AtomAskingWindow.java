@@ -35,7 +35,7 @@ public class AtomAskingWindow extends javax.swing.JDialog {
     }
     
     private void customInit(){        
-        // <editor-fold defaultstate="collapsed" desc="Creazione e aggiunta labels di sfondo">
+        // <editor-fold defaultstate="collapsed" desc="Creating and adding background labels">
         
         String glassPanelPath = "src" + System.getProperty("file.separator") + 
                                 "main" + System.getProperty("file.separator") +
@@ -54,7 +54,7 @@ public class AtomAskingWindow extends javax.swing.JDialog {
         this.backgroundPanel.revalidate();
         // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Definizione dei focus">
+        // <editor-fold defaultstate="collapsed" desc="Defining focus">
         this.setFocusable(true);
         this.yesButton.setFocusable(true);
         this.noButton.setFocusable(true);
@@ -64,14 +64,14 @@ public class AtomAskingWindow extends javax.swing.JDialog {
         this.backgroundLabel.setFocusable(false);
         // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Impostazione questionArea">
+        // <editor-fold defaultstate="collapsed" desc="Setting up questionArea">
         this.questionArea.setLineWrap(true);
         this.questionArea.setWrapStyleWord(true);
         this.questionArea.setEditable(false);
         this.questionArea.setForeground(Color.white);
         // </editor-fold>
         
-        // <editor-fold defaultstate="collapsed" desc="Impostazione trasparenza componenti della question area">
+        // <editor-fold defaultstate="collapsed" desc="Setting up questionArea trasparency">
         Color empty = new Color(0, 0, 0, 0);
         this.setBackground(empty);
         this.backgroundPanel.setBackground(empty);
