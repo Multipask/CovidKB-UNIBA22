@@ -44,7 +44,8 @@ public class PropositionalDefiniteClause {
     }
 
     public void setBody(List<Atom> body) {
-        this.body = body;
+        this.body = new ArrayList<>();
+        this.body.addAll(body);
     }
     
     public boolean isFact() {
