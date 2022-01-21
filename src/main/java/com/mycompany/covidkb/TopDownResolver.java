@@ -221,4 +221,40 @@ public class TopDownResolver {
             }
         }
     }
+    
+    public String getFormattedOntology(){
+        StringBuilder ontologyBuilder = new StringBuilder();
+        
+        //Loogic
+        
+        return ontologyBuilder.toString();
+    }
+    
+    public String getFormattedAxioms(){
+        StringBuilder axiomsBuilder = new StringBuilder();
+        
+        for(PropositionalDefiniteClause axiom : kbAxioms){
+            StringBuilder currentAxiomBuilder = new StringBuilder();
+            
+            currentAxiomBuilder.append(axiom.getHead().getName()).append(" <- ");
+            
+            int bodySize = axiom.getBody().size();
+            int counter = 0;
+            
+            for(Atom bodyAtom : axiom.getBody()){
+                counter++;
+                currentAxiomBuilder.append(bodyAtom.getName());
+                
+                if(counter < bodySize){
+                    currentAxiomBuilder.append(" ^ ");
+                }
+            }
+            
+            currentAxiomBuilder.append(System.lineSeparator());
+            
+            axiomsBuilder.append(currentAxiomBuilder);
+        }
+        
+        return axiomsBuilder.toString();
+    }
 }

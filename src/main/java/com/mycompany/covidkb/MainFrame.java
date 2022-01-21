@@ -38,7 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
         customInit();
     }
     
-    public final TopDownResolver getResolver(){
+    private TopDownResolver getResolver(){
         
         //Parte di acquisizione di atomi e assiomi da DB
         
@@ -125,20 +125,6 @@ public class MainFrame extends javax.swing.JFrame {
         covidKb.add(pdc15);
         covidKb.add(pdc16);
         covidKb.add(pdc17);
-        
-        for(PropositionalDefiniteClause axiom : covidKb){
-            StringBuilder currentAxiomBuilder = new StringBuilder();
-            
-            currentAxiomBuilder.append(axiom.getHead().getName()).append(" <-");
-            
-            for(Atom bodyAtom : axiom.getBody()){
-                currentAxiomBuilder.append(" ").append(bodyAtom.getName());
-            }
-            
-            currentAxiomBuilder.append(System.lineSeparator());
-            
-            System.out.println(currentAxiomBuilder.toString());
-        }
         
         //Creazione di un TopDownResolver sugli assiomi caricati
         TopDownResolver tdr = new TopDownResolver(this, atoms, covidKb);
@@ -235,9 +221,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         if (resultingCommand.isHelpCommand()) {
-            outputArea.setText("Digit a query in the format: ask [atom] (and [atom])*");
-            outputArea.append("Digit \"axioms\" to show KB axioms");
-            outputArea.append("Digit \"ontology\" to show symbol meanings");
+            outputArea.setText("Digit a query in the format: ask [atom] (and [atom])*" + System.lineSeparator());
+            outputArea.append("Digit \"axioms\" to show KB axioms" + System.lineSeparator());
+            outputArea.append("Digit \"ontology\" to show symbol meanings" + System.lineSeparator());
         }
         
         if (resultingCommand.isAskingCommand()) {
@@ -251,11 +237,15 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         if(resultingCommand.isShowOntologyCommand()){
-            outputArea.setText("Ontology:");
+            outputArea.setText("Ontology:" + System.lineSeparator());
+            outputArea.append(resolver.getFormattedOntology());
+            outputArea.setCaretPosition(0);
         }
         
         if(resultingCommand.isShowAxiomsCommand()){
-            outputArea.setText("Axioms:");
+            outputArea.setText("Axioms:" + System.lineSeparator());
+            outputArea.append(resolver.getFormattedAxioms());
+            outputArea.setCaretPosition(0);
         }
     }
     
