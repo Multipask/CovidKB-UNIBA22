@@ -224,6 +224,7 @@ public class MainFrame extends javax.swing.JFrame {
             outputArea.setText("Digit a query in the format: ask [atom] (and [atom])*" + System.lineSeparator());
             outputArea.append("Digit \"axioms\" to show KB axioms" + System.lineSeparator());
             outputArea.append("Digit \"ontology\" to show symbol meanings" + System.lineSeparator());
+            outputArea.setCaretPosition(0);
         }
         
         if (resultingCommand.isAskingCommand()) {

@@ -62,13 +62,22 @@ public class TopDownResolver {
 
         Graph<Vertex<List<Atom>>, Boolean> searchingGraph = this.getSearchingGraph(answerClause);
 
+        mainFrame.appendOutput("Graph Visit Log:" + System.lineSeparator());
+        
         this.exploreGraph(searchingGraph, searchingGraph.getRoot(), answerClause);
 
+        StringBuilder queryOutcomeBuilder = new StringBuilder();
+        
         if (answerClause.isFact()) {
-            mainFrame.appendOutput("Dimostrazione riuscita!");
+            queryOutcomeBuilder.append("Demonstration succeeded!");
         } else {
-            mainFrame.appendOutput("Dimostrazione fallita...");
+            queryOutcomeBuilder.append("Demonstration failed...");
         }
+        
+        queryOutcomeBuilder.append(System.lineSeparator()).append("Resulting answer clause:").append(System.lineSeparator());
+        queryOutcomeBuilder.append(TopDownResolver.getFotmattedClause(answerClause));
+        
+        mainFrame.appendOutput(queryOutcomeBuilder.toString());
         
         for(Atom kbAtom: kbAtoms){
             kbAtom.resetAtom();
@@ -234,27 +243,30 @@ public class TopDownResolver {
         StringBuilder axiomsBuilder = new StringBuilder();
         
         for(PropositionalDefiniteClause axiom : kbAxioms){
-            StringBuilder currentAxiomBuilder = new StringBuilder();
+            String currentAxiom = TopDownResolver.getFotmattedClause(axiom);            
+            axiomsBuilder.append(currentAxiom).append(System.lineSeparator());
+        }
+        
+        return axiomsBuilder.toString().trim();
+    }
+    
+    private static String getFotmattedClause(PropositionalDefiniteClause clause){
+            StringBuilder clauseBuilder = new StringBuilder();
             
-            currentAxiomBuilder.append(axiom.getHead().getName()).append(" <- ");
+            clauseBuilder.append(clause.getHead().getName()).append(" <- ");
             
-            int bodySize = axiom.getBody().size();
+            int bodySize = clause.getBody().size();
             int counter = 0;
             
-            for(Atom bodyAtom : axiom.getBody()){
+            for(Atom bodyAtom : clause.getBody()){
                 counter++;
-                currentAxiomBuilder.append(bodyAtom.getName());
+                clauseBuilder.append(bodyAtom.getName());
                 
                 if(counter < bodySize){
-                    currentAxiomBuilder.append(" ^ ");
+                    clauseBuilder.append(" ^ ");
                 }
             }
             
-            currentAxiomBuilder.append(System.lineSeparator());
-            
-            axiomsBuilder.append(currentAxiomBuilder);
-        }
-        
-        return axiomsBuilder.toString();
+            return clauseBuilder.toString();
     }
 }
