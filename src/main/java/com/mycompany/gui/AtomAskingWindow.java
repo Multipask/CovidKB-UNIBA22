@@ -22,13 +22,16 @@ public class AtomAskingWindow extends javax.swing.JDialog {
      * Creates new form AtomAskingWindow
      * @param parent
      * @param modal
+     * @param question
      */
-    public AtomAskingWindow(java.awt.Frame parent, boolean modal) {
+    public AtomAskingWindow(java.awt.Frame parent, boolean modal, String question) {
         super(parent, modal);
         super.setUndecorated(true);
         initComponents();
         customInit();
         super.setLocationRelativeTo(parent);
+        
+        this.questionArea.setText(question);
     }
     
     private void customInit(){        
@@ -46,17 +49,17 @@ public class AtomAskingWindow extends javax.swing.JDialog {
         this.backgroundPanel.add(backgroundLabel, 
                 new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, this.backgroundPanel.getWidth(), this.backgroundPanel.getHeight()));
         
-        this.backgroundLabel.setOpaque(false);
-        this.backgroundLabel.setBackground(new Color(0, 0, 0, 0));
-        this.backgroundLabel.revalidate();
+        this.backgroundPanel.setOpaque(false);
+        this.backgroundPanel.setBackground(new Color(0, 0, 0, 0));
+        this.backgroundPanel.revalidate();
         // </editor-fold>
         
         // <editor-fold defaultstate="collapsed" desc="Definizione dei focus">
         this.setFocusable(true);
         this.yesButton.setFocusable(true);
         this.noButton.setFocusable(true);
-        this.questionArea.setFocusable(true);
-        this.questionAreaScroll.setFocusable(true);
+        this.questionArea.setFocusable(false);
+        this.questionAreaScroll.setFocusable(false);
         this.backgroundPanel.setFocusable(false);
         this.backgroundLabel.setFocusable(false);
         // </editor-fold>
@@ -85,15 +88,11 @@ public class AtomAskingWindow extends javax.swing.JDialog {
         // </editor-fold>    
     }
     
-    public void setQuestion(String question){
-        this.questionArea.setText(question);
-    }
-
     public boolean getAnswer() {
         return answer;
     }
 
-    public void setAnswer(boolean answer) {
+    private void setAnswer(boolean answer) {
         this.answer = answer;
         this.dispose();
     }

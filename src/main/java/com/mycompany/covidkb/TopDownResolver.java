@@ -193,8 +193,8 @@ public class TopDownResolver {
                     Atom askableAtom = currentVertex.getContent().get(0);
 
                     if (!askableAtom.isAlreadyAsked()) {
-                        AtomAskingWindow askingWindow = new AtomAskingWindow(mainFrame, true);
-                        askingWindow.setQuestion(currentVertex.getContent().get(0).getName() + "?");
+                        String question = currentVertex.getContent().get(0).getName() + "?";
+                        AtomAskingWindow askingWindow = new AtomAskingWindow(mainFrame, true, question);
                         askingWindow.setVisible(true);
                         Boolean providedAnswer = askingWindow.getAnswer();
 
