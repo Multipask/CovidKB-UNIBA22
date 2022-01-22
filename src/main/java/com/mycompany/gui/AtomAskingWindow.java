@@ -37,11 +37,7 @@ public class AtomAskingWindow extends javax.swing.JDialog {
     private void customInit(){        
         // <editor-fold defaultstate="collapsed" desc="Creating and adding background labels">
         
-        String glassPanelPath = "src" + System.getProperty("file.separator") + 
-                                "main" + System.getProperty("file.separator") +
-                                "java" + System.getProperty("file.separator") + 
-                                "com" + System.getProperty("file.separator") + 
-                                "mycompany" + System.getProperty("file.separator") + 
+        String glassPanelPath = "resources" + System.getProperty("file.separator") +                                
                                 "gui" + System.getProperty("file.separator") + "GlassPanel.png";
         
         this.backgroundLabel = new BackgroundLabel(glassPanelPath,

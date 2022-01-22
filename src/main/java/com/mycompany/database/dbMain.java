@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class dbMain {
 
-    public static void main(String[] args) {
+    public static void buildDB(){
         DatabaseHandler db = DatabaseHandler.getDBHandler();
         
         db.ResetDB();
@@ -37,6 +37,8 @@ public class dbMain {
         Atom covidMild = new Atom("covid_mild", false, "The subject shows mild symptoms of covid");
         Atom covidSerious = new Atom("covid_serious", false, "The subject shows severe symptoms of covid");
         
+        System.out.println("Uploading Atoms..."+System.lineSeparator());
+        
         try{
             db.uploadAtom(testedPositive);
             db.uploadAtom(flu);
@@ -60,17 +62,17 @@ public class dbMain {
             db.uploadAtom(covidMild);
             db.uploadAtom(covidSerious);
             
-            System.out.println("Atom Size: " + db.downloadAllAtoms().size() + "\n");
+            System.out.println("Uploaded the following Atoms:"+System.lineSeparator());
             
             for(Atom a : db.downloadAllAtoms()){
-                System.out.println(a.toString() + "\n");
+                System.out.println(a.toString() + System.lineSeparator());
             }
             
         } catch (SQLException ex){
             System.err.println(ex.getMessage());
         }
         
-        System.out.println("------------" + "\n\n");
+        System.out.println(System.lineSeparator()+System.lineSeparator());
         
         PropositionalDefiniteClause pdc1 = new PropositionalDefiniteClause(commonSymptoms, fever);
         PropositionalDefiniteClause pdc2 = new PropositionalDefiniteClause(commonSymptoms, cough);
@@ -90,6 +92,8 @@ public class dbMain {
         PropositionalDefiniteClause pdc16 = new PropositionalDefiniteClause(covid, covidSerious);
         PropositionalDefiniteClause pdc17 = new PropositionalDefiniteClause(covid, testedPositive);
         
+        System.out.println("Uploading Propositions..."+System.lineSeparator());
+        
         try{
             db.uploadProposition(pdc1);
             db.uploadProposition(pdc2);
@@ -107,12 +111,12 @@ public class dbMain {
             db.uploadProposition(pdc14);
             db.uploadProposition(pdc15);
             db.uploadProposition(pdc16);
-            db.uploadProposition(pdc17);
+            db.uploadProposition(pdc17);          
             
-            System.out.println("PROPOSITIONS ------------" + "\n");
+            System.out.println("Uploaded the following Propositions"+System.lineSeparator());
             
             for(PropositionalDefiniteClause p : db.downloadAllPropositions()){
-                System.out.println(p.toString() + "\n");
+                System.out.println(p.toString() + System.lineSeparator());
             }
             
         } catch (SQLException ex){
@@ -120,4 +124,8 @@ public class dbMain {
         }
     }
     
+    public static void main(String[] args) {
+        buildDB();
+    } 
+  
 }

@@ -1,0 +1,1 @@
+java -jar lib\CovidAPP-jar-with-dependencies.jar

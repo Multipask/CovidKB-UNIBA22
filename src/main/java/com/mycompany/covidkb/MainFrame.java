@@ -6,6 +6,7 @@
 package com.mycompany.covidkb;
 
 import com.mycompany.database.DatabaseHandler;
+import com.mycompany.database.dbMain;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -76,11 +77,7 @@ public class MainFrame extends javax.swing.JFrame {
         
         // <editor-fold defaultstate="collapsed" desc="Creating and adding background labels">
         
-        String backgroundPath = "src" + System.getProperty("file.separator") + 
-                                "main" + System.getProperty("file.separator") +
-                                "java" + System.getProperty("file.separator") + 
-                                "com" + System.getProperty("file.separator") + 
-                                "mycompany" + System.getProperty("file.separator") + 
+        String backgroundPath = "resources" + System.getProperty("file.separator")+
                                 "gui" + System.getProperty("file.separator") + "Background.jpg";
         
         this.backgroundLabel = new BackgroundLabel(backgroundPath,
@@ -92,11 +89,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.backgroundLabel.setBackground(new Color(0, 0, 0, 0));
         this.backgroundLabel.revalidate();
         
-        String glassPanelPath = "src" + System.getProperty("file.separator") + 
-                                "main" + System.getProperty("file.separator") +
-                                "java" + System.getProperty("file.separator") + 
-                                "com" + System.getProperty("file.separator") + 
-                                "mycompany" + System.getProperty("file.separator") + 
+        String glassPanelPath = "resources" + System.getProperty("file.separator") +                                
                                 "gui" + System.getProperty("file.separator") + "GlassPanel.png";
         
         this.outputAreaBackgroundLabel = new BackgroundLabel(glassPanelPath,
@@ -310,6 +303,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+        
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
