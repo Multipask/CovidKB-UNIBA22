@@ -5,26 +5,37 @@
  */
 package com.mycompany.covidkb;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author giuse
  */
-public class Atom {
+public class Atom implements Serializable {
     
     private String name;
     private boolean askable;
     private boolean alreadyAsked;
     private Boolean providedAnswer;
+    private String ontologyMeaning;
 
     public Atom(String name, boolean askable) {
         this.name = name;
         this.askable = askable;
         this.alreadyAsked = false;
         this.providedAnswer = null;
+        this.ontologyMeaning = "";
     }
 
+    public Atom(String name, boolean askable, String meaning) {
+        this.name = name;
+        this.askable = askable;
+        this.alreadyAsked = false;
+        this.providedAnswer = null;
+        this.ontologyMeaning = meaning;
+    }
+    
     public String getName() {
         return name;
     }
@@ -44,6 +55,10 @@ public class Atom {
     public void provideAnswer(Boolean providedAnswer){
         this.alreadyAsked = true;
         this.providedAnswer = providedAnswer;
+    }
+    
+    public String getOntology(){
+        return ontologyMeaning;
     }
     
     public void resetAtom(){

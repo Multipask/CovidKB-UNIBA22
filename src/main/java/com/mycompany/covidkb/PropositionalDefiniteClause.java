@@ -5,15 +5,17 @@
  */
 package com.mycompany.covidkb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
  * @author giuse
  */
-public class PropositionalDefiniteClause {
+public class PropositionalDefiniteClause implements Serializable {
 
     private Atom head;
     private List<Atom> body;
@@ -51,4 +53,42 @@ public class PropositionalDefiniteClause {
     public boolean isFact() {
         return (this.body.isEmpty());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.head);
+        hash = 47 * hash + Objects.hashCode(this.body);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PropositionalDefiniteClause other = (PropositionalDefiniteClause) obj;
+        if (!Objects.equals(this.head, other.head)) {
+            return false;
+        }
+        return Objects.equals(this.body, other.body);
+    } 
+
+    @Override
+    public String toString() {
+        String finalString = this.head.getName() + " <- ";
+        for(int i =0; i<body.size()-1;i++){
+           finalString = finalString.concat(body.get(i).getName() + " AND ");
+        }
+        finalString = finalString.concat(body.get(body.size()-1).getName());
+        return finalString;
+    }
+    
+    
 }
