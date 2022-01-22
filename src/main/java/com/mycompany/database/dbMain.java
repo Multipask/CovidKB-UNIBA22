@@ -16,26 +16,26 @@ public class dbMain {
         db.ResetDB();
         
         Atom testedPositive = new Atom("tested_positive", true, "The Covid Test for the subject resulted positive");
-        Atom fever = new Atom("fever", true);
-        Atom cough = new Atom("cough", true);
-        Atom asthenia = new Atom("asthenia", true);
-        Atom tasteOrSmellLoss = new Atom("taste_or_smell_loss", true);
-        Atom chestPain = new Atom("chest_pain", true);
-        Atom breathingDifficulty = new Atom("breathing_difficulty", true);
-        Atom noSymptoms = new Atom("no_symptoms", true);
-        Atom commonSymptoms = new Atom("common_symptoms", false);
-        Atom seriousSymptoms = new Atom("serious_symptoms", false);
-        Atom alreadyHadCovid = new Atom("already_had_covid", true); 
-        Atom vaccinated = new Atom("vaccinated", true);
-        Atom hangedOutNoProtection = new Atom("hanged_out_no_protection", true);
-        Atom contactWithPositive = new Atom("contact_with_positive", true);
-        Atom isProtected = new Atom("is_protected", false);
-        Atom isAtRisk = new Atom("is_at_risk", false);
-        Atom well = new Atom("well", false);
-        Atom flu = new Atom("flu", false);
-        Atom covid = new Atom("covid", false);
-        Atom covidMild = new Atom("covid_mild", false);
-        Atom covidSerious = new Atom("covid_serious", false);
+        Atom fever = new Atom("fever", true, "The subject has fever");
+        Atom cough = new Atom("cough", true, "The subject has cough");
+        Atom asthenia = new Atom("asthenia", true, "The subject has asthenia");
+        Atom tasteOrSmellLoss = new Atom("taste_or_smell_loss", true, "The subject presents a loss of smell or taste");
+        Atom chestPain = new Atom("chest_pain", true, "The subject presents chest pain");
+        Atom breathingDifficulty = new Atom("breathing_difficulty", true, "The subject has difficulties breathing normally");
+        Atom noSymptoms = new Atom("no_symptoms", true,"The subject presents no symptoms");
+        Atom commonSymptoms = new Atom("common_symptoms", false, "The subject presents common symptoms of covid");
+        Atom seriousSymptoms = new Atom("serious_symptoms", false, "The subject presents severe smyptoms of covid");
+        Atom alreadyHadCovid = new Atom("already_had_covid", true, "The subject already had covid and healed"); 
+        Atom vaccinated = new Atom("vaccinated", true, "The subject received a full round of vaccination");
+        Atom hangedOutNoProtection = new Atom("hanged_out_no_protection", true, "The subject has not used protection when outside");
+        Atom contactWithPositive = new Atom("contact_with_positive", true, "The subject had a recent contact with an individual positive to covid");
+        Atom isProtected = new Atom("is_protected", false, "The subject is protected against covid");
+        Atom isAtRisk = new Atom("is_at_risk", false, "The subject is at risk of contracting covid");
+        Atom well = new Atom("well", false,"The subject is well");
+        Atom flu = new Atom("flu", false, "The subject has flu");
+        Atom covid = new Atom("covid", false, "The subject has covid");
+        Atom covidMild = new Atom("covid_mild", false, "The subject shows mild symptoms of covid");
+        Atom covidSerious = new Atom("covid_serious", false, "The subject shows severe symptoms of covid");
         
         try{
             db.uploadAtom(testedPositive);
