@@ -6,6 +6,7 @@
 package com.mycompany.covidkb;
 
 import com.mycompany.database.DatabaseHandler;
+import com.mycompany.database.dbMain;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +40,10 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         this.resolver = this.getResolver();
+        while(resolver==null){
+            dbMain.buildDB();
+            this.resolver = this.getResolver();
+        }
         initComponents();
         customInit();
     }
@@ -53,14 +58,16 @@ public class MainFrame extends javax.swing.JFrame {
             atoms = DatabaseHandler.getDBHandler().downloadAllAtoms();
             covidKb = DatabaseHandler.getDBHandler().downloadAllPropositions();
         } catch (SQLException ex){
-            this.setOutput(ex.getMessage());
+            System.err.println(ex.getMessage());
         }
-        
-        // MESSAGGIO DI ERRORE E CHIUSURA PROGRAMMA SE ATOMS O COVIDKB SONO VUOTI
         
         //Creazione di un TopDownResolver sugli assiomi caricati
         TopDownResolver tdr = new TopDownResolver(this, atoms, covidKb);
-        
+        if(atoms.isEmpty() || covidKb.isEmpty()){
+           System.err.println("Error. No Atoms or Propositions failed to load. Will build local standard Database and try again");
+           tdr = null;
+        }
+
         return tdr;
     }
 
@@ -329,7 +336,7 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new MainFrame().setVisible(true);           
             }
         });
     }
