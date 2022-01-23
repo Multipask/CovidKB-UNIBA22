@@ -6,7 +6,6 @@
 package com.mycompany.covidkb;
 
 import com.mycompany.database.DatabaseHandler;
-import com.mycompany.database.dbMain;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
             atoms = DatabaseHandler.getDBHandler().downloadAllAtoms();
             covidKb = DatabaseHandler.getDBHandler().downloadAllPropositions();
         } catch (SQLException ex){
-            System.err.println(ex.getMessage());
+            this.setOutput(ex.getMessage());
         }
         
         // MESSAGGIO DI ERRORE E CHIUSURA PROGRAMMA SE ATOMS O COVIDKB SONO VUOTI
