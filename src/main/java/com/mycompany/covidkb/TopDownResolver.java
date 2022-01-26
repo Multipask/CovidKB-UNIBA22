@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class TopDownResolver {
 
-    private final static int MAX_ASKINGQUERY_SIZE = 2;
+    private final static int MAX_ASKINGQUERY_SIZE = 1;
     
     private MainFrame mainFrame;
     private Set<Atom> kbAtoms;
