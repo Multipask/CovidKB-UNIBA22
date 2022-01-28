@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 
 import com.mycompany.gui.BackgroundLabel;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 /**
  *
@@ -55,8 +56,17 @@ public class MainFrame extends javax.swing.JFrame {
         List<PropositionalDefiniteClause> covidKb = new ArrayList<>();
         
         try {
-            atoms = DatabaseHandler.getDBHandler().downloadAllAtoms();
-            covidKb = DatabaseHandler.getDBHandler().downloadAllPropositions();
+            atoms = DatabaseHandler.getDBHandler().downloadAllAtoms();// scarica atomi
+            List<PropositionalDefiniteClause> testKb = DatabaseHandler.getDBHandler().downloadAllPropositions();
+            
+            for(PropositionalDefiniteClause p: testKb){               
+                Atom headAtom = atoms.stream().filter(atom -> atom.getName().equals(p.getHead().getName())).toList().get(0);
+                List<Atom> bodyAtoms = new LinkedList<>();
+                for(Atom a: p.getBody()){
+                    bodyAtoms.add(atoms.stream().filter(atom -> atom.getName().equals(a.getName())).toList().get(0));
+                }
+                covidKb.add(new PropositionalDefiniteClause(headAtom, bodyAtoms));
+            }
         } catch (SQLException ex){
             System.err.println(ex.getMessage());
         }
@@ -155,7 +165,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         if (resultingCommand.isHelpCommand()) {
-            outputArea.setText("Digit a query in the format: ask [atom] (and [atom])*" + System.lineSeparator());
+            outputArea.setText("Digit a query in the format: ask [atom]" + System.lineSeparator());
             outputArea.append("Digit \"axioms\" to show KB axioms" + System.lineSeparator());
             outputArea.append("Digit \"ontology\" to show symbol meanings" + System.lineSeparator());
             outputArea.setCaretPosition(0);

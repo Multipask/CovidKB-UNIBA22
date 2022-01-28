@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -121,6 +122,29 @@ public class DatabaseHandler {
         return atomSet;
     }
     
+    public List<Atom> downloadListAllAtoms() throws SQLException {
+                conn = DriverManager.getConnection(URL);
+        List<Atom> atomSet = new LinkedList<Atom>();
+        String STATEMENT = "SELECT * FROM atoms";  
+        Statement query = conn.createStatement();
+        ResultSet rs = query.executeQuery(STATEMENT);
+        
+        while(rs.next()){
+            Atom a = new Atom(rs.getString(1), rs.getBoolean(2), rs.getString(3));
+            atomSet.add(a);
+        }
+
+        rs.close();
+        query.close();
+        conn.close();
+        
+        if(atomSet.isEmpty()){
+            throw new SQLException("NO ATOMS FOUND IN THE DATABASE");
+        }
+        
+        return atomSet;
+    }
+    
     public Atom downloadAtom(String name) throws SQLException {
         conn = DriverManager.getConnection(URL);
         Atom a = null;
@@ -153,7 +177,7 @@ public class DatabaseHandler {
         propStm.close();
         conn.close();
     }
-
+    
     public List<PropositionalDefiniteClause> downloadAllPropositions() throws SQLException {
         conn = DriverManager.getConnection(URL);
         List<PropositionalDefiniteClause> kb = new ArrayList<>();

@@ -31,7 +31,6 @@ public class dbMain {
         Atom contactWithPositive = new Atom("contact_with_positive", true, "The subject had a recent contact with an individual positive to covid");
         Atom isProtected = new Atom("is_protected", false, "The subject is protected against covid");
         Atom isAtRisk = new Atom("is_at_risk", false, "The subject is at risk of contracting covid");
-        Atom well = new Atom("well", false,"The subject is well");
         Atom flu = new Atom("flu", false, "The subject has flu");
         Atom covid = new Atom("covid", false, "The subject has covid");
         Atom covidMild = new Atom("covid_mild", false, "The subject shows mild symptoms of covid");
@@ -57,7 +56,6 @@ public class dbMain {
             db.uploadAtom(contactWithPositive);
             db.uploadAtom(isAtRisk);
             db.uploadAtom(isProtected);
-            db.uploadAtom(well);
             db.uploadAtom(covid);
             db.uploadAtom(covidMild);
             db.uploadAtom(covidSerious);
@@ -84,7 +82,6 @@ public class dbMain {
         PropositionalDefiniteClause pdc8 = new PropositionalDefiniteClause(isProtected, vaccinated);
         PropositionalDefiniteClause pdc9 = new PropositionalDefiniteClause(isAtRisk, hangedOutNoProtection);
         PropositionalDefiniteClause pdc10 = new PropositionalDefiniteClause(isAtRisk, contactWithPositive);
-        PropositionalDefiniteClause pdc11 = new PropositionalDefiniteClause(well, noSymptoms, isProtected);
         PropositionalDefiniteClause pdc12 = new PropositionalDefiniteClause(flu, commonSymptoms, isProtected);
         PropositionalDefiniteClause pdc13 = new PropositionalDefiniteClause(covidMild, commonSymptoms, isAtRisk);
         PropositionalDefiniteClause pdc14 = new PropositionalDefiniteClause(covidSerious, seriousSymptoms, isAtRisk);
@@ -105,7 +102,6 @@ public class dbMain {
             db.uploadProposition(pdc8);
             db.uploadProposition(pdc9);
             db.uploadProposition(pdc10);
-            db.uploadProposition(pdc11);
             db.uploadProposition(pdc12);
             db.uploadProposition(pdc13);
             db.uploadProposition(pdc14);
