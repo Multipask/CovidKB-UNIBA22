@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class TopDownResolver {
 
-    private final static int MAX_ASKINGQUERY_SIZE = 2;
+    private final static int MAX_ASKINGQUERY_SIZE = 1;
     
     private MainFrame mainFrame;
     private Set<Atom> kbAtoms;
@@ -244,13 +244,16 @@ public class TopDownResolver {
     public String getFormattedOntology(){
         StringBuilder ontologyBuilder = new StringBuilder();
         
-        //Loogic
+        for(Atom a : kbAtoms){
+            ontologyBuilder.append(a.getName() + ": ").append(a.getOntology()).append(System.lineSeparator());
+        }
         
         return ontologyBuilder.toString();
     }
     
     public String getFormattedAxioms(){
         StringBuilder axiomsBuilder = new StringBuilder();
+        
         
         for(PropositionalDefiniteClause axiom : kbAxioms){
             String currentAxiom = TopDownResolver.getFotmattedClause(axiom);            
