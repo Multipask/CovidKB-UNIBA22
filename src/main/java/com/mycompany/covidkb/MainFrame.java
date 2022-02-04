@@ -40,7 +40,6 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame() {
-        this.resolver = this.getResolver();
         while(resolver==null){
             dbMain.buildDB();
             this.resolver = this.getResolver();
@@ -50,30 +49,47 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private TopDownResolver getResolver(){
-        
         //Parte di acquisizione di atomi e assiomi da DB
         Set<Atom> atoms = new HashSet<>();
-        List<PropositionalDefiniteClause> covidKb = new ArrayList<>();
+        List<PropositionalDefiniteClause> actualKb = new ArrayList<>();
         
         try {
-            atoms = DatabaseHandler.getDBHandler().downloadAllAtoms();// scarica atomi
-            List<PropositionalDefiniteClause> testKb = DatabaseHandler.getDBHandler().downloadAllPropositions();
+            atoms = DatabaseHandler.getDBHandler().downloadAllAtoms();
+            List<PropositionalDefiniteClause> tempKb = DatabaseHandler.getDBHandler().downloadAllPropositions();
             
-            for(PropositionalDefiniteClause p: testKb){               
-                Atom headAtom = atoms.stream().filter(atom -> atom.getName().equals(p.getHead().getName())).toList().get(0);
-                List<Atom> bodyAtoms = new LinkedList<>();
-                for(Atom a: p.getBody()){
-                    bodyAtoms.add(atoms.stream().filter(atom -> atom.getName().equals(a.getName())).toList().get(0));
+            for(PropositionalDefiniteClause tempProposition: tempKb){               
+                Atom headAtom = null;
+                
+                for(Atom atom : atoms){
+                    if(atom.getName().equals(tempProposition.getHead().getName())){
+                        headAtom = atom;
+                        break;
+                    }
                 }
-                covidKb.add(new PropositionalDefiniteClause(headAtom, bodyAtoms));
+                        
+                List<Atom> bodyAtoms = new LinkedList<>();
+                
+                for (Atom tempBodyAtom : tempProposition.getBody()) {
+                    Atom bodyAtom = null;
+
+                    for (Atom atom : atoms) {
+                        if (atom.getName().equals(tempBodyAtom.getName())) {
+                            bodyAtom = atom;
+                            break;
+                        }
+                    }
+                    
+                    bodyAtoms.add(bodyAtom);
+                }
+                actualKb.add(new PropositionalDefiniteClause(headAtom, bodyAtoms));
             }
         } catch (SQLException ex){
             System.err.println(ex.getMessage());
         }
         
         //Creazione di un TopDownResolver sugli assiomi caricati
-        TopDownResolver tdr = new TopDownResolver(this, atoms, covidKb);
-        if(atoms.isEmpty() || covidKb.isEmpty()){
+        TopDownResolver tdr = new TopDownResolver(this, atoms, actualKb);
+        if(atoms.isEmpty() || actualKb.isEmpty()){
            System.err.println("Error. No Atoms or Propositions failed to load. Will build local standard Database and try again");
            tdr = null;
         }
@@ -286,8 +302,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    
     
     private void inputFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputFieldKeyPressed
         switch (evt.getKeyCode()) {
